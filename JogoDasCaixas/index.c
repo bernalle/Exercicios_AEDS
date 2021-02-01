@@ -4,7 +4,6 @@
 int main()
 {
 
-    printf("\n Entrou");
     const char nameTxt[10];
     printf("Digite o nome do arquivo de entrada: ");
     scanf("%s", &nameTxt);
@@ -18,12 +17,13 @@ int main()
         return 0;
     }
 
-    hook = (fgetc(arq) - 48);
+    hook = (getc((int) arq - 48));
     boxMatrix[0][0] = hook;
-    int fileira = 1;
+    int fileira = 0;
     int caixa = 0;
 
-    while (hook = (fgetc(arq) - 48) != EOF)
+    printf("\n Entrou");
+    while (hook = (getc(arq)) != EOF)
     {
         for (caixa; caixa != '\n'; caixa++)
         {
