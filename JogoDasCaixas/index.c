@@ -8,37 +8,34 @@ int main()
     printf("Digite o nome do arquivo de entrada: ");
     scanf("%s", &nameTxt);
 
+
     char hook; //fisgar caracter dentro do arquivo
-    int **boxMatrix;
+    int **boxMatrix = malloc(20 * sizeof(int));
     FILE *arq = fopen(nameTxt, "r");
     if (arq == NULL)
     {
         printf("Problemas na abertura do arquivo");
         return 0;
     }
-
-    hook = (getc((int) arq - 48));
+    hook = (getc((int) arq) - 48);
     boxMatrix[0][0] = hook;
     int fileira = 0;
     int caixa = 0;
 
-    printf("\n Entrou");
+  //Problema de Loop  
     while (hook = (getc(arq)) != EOF)
     {
         for (caixa; caixa != '\n'; caixa++)
         {
+            hook = getc((int)arq - '0');
             boxMatrix[fileira][caixa] = hook;
         }
         fileira++;
     }
     fclose(arq);
 
-    for (int i = 0; i < 5; i++)
-    {
-        printf("Entrou");
-        for (int j = 0; i < 5; j++)
-        {
-            printf("%i %i",boxMatrix[i][j]);
-        }
-    }
+    printf("\n Entrou\n "); 
+
+    //printf("%i",boxMatrix[0][0]);
+    
 }
