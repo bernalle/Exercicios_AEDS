@@ -2,25 +2,43 @@
 #include <stdlib.h>
 #include <string.h>
 
-void matrixCalculation(int **intMatrix)
+void matrixCalculation(int **value, int fileira, int coluna)
 {
-    int i, j;
+    int maior;
+    int soma[fileira];
+    soma[0] = value[0][0];
 
-    for (i = 0; i < strlen(intMatrix); i++)
+    for (int i = 1; i <= fileira; i++)
     {
-        for (j = 0; j < strlen(intMatrix); j++)
+        for (int j = 0; j <= coluna; j++)
         {
-            printf("\n%i", intMatrix[i][j]);
-        }
+           soma[i] = soma[i] + value[i][j];
+        }    
     }
+    
+    maior = soma[0];
+    int resultado;
+    int linha;
+    int col;
 
+    for (int i = 1; i <= fileira; i++)
+    {
+        for (int j = 0; j <= coluna; j++)
+        {
+            resultado = value[i][j] + soma[j];
+            if (maior < resultado)
+            {
+                maior = resultado;
+                linha = i;
+                col = j;
+            }
+        }      
+    }
+    printf("Resposta: fileira %d, caixa %d.",linha,col +1);  
 }
 
 void createIntMatrix(char *nameTxt)
 {
-
-    printf("%s", nameTxt); // -- Checkpoint --
-
     FILE *arc;
     arc = fopen(nameTxt, "r");
     if (arc == NULL)
@@ -29,15 +47,13 @@ void createIntMatrix(char *nameTxt)
         exit(1);
     }
 
-    printf("\nSuccess to open the File"); // -- Checkpoint --
-
     // Creation of dinamic matrix, max 20 rows
 
     int **intMatrix; //point to point
-    const int numOfRow = 21;
-    const int numOfColumn = 231;
+    int numOfRow = 20;
+    int numOfColumn = 19;
 
-    intMatrix = (int **)malloc(numOfRow * sizeof(int *)); // vector
+    intMatrix = (int **)calloc(numOfRow, sizeof(int *)); // vector
     if (intMatrix == NULL)
     {
         printf("\n ERROR: IMPOSSIBLE TO ALLOCATE ROW"); // -- Checkpoint --
@@ -45,81 +61,41 @@ void createIntMatrix(char *nameTxt)
     }
     for (int i = 0; i < numOfRow; i++)
     {
-        intMatrix[i] = (int *)malloc(numOfColumn * sizeof(int)); //integers
+        intMatrix[i] = (int *)calloc(numOfColumn, sizeof(int)); //integers
         if (intMatrix[i] == NULL)
         {
             printf("\n ERROR: IMPOSSIBLE TO ALLOCATE COLUMN"); // -- Checkpoint --
             exit(1);
         }
     }
+    
+    int valorRepet;
+    int fileira;
+    int coluna;
+    int i,j;
+    char auxiliar[] = "%i";
 
-    int ch; // integer for character reading
-    int rows = 0;
-    int columns = 0;
-    int aux1 = 0;
-    int aux2 = 0;
-    const int aux3 = -1;
+    fscanf(arc, "%i", &valorRepet);
 
-    intMatrix[rows][columns] = (ch = fgetc(arc)) - 48;
-    aux2 = intMatrix[0][0];
-
-    printf("\n   intMatrix is printing  %i", intMatrix[rows][columns]); // --Checkpoint --
-
-    while ((ch = fgetc(arc)) != EOF)
-    {     
-        printf("\nEsta printando");
-        if (ch == '\n')
+    for (i = 0; i < valorRepet; i++)
+    {
+        for ( j = 0; j < valorRepet; j++)
         {
-            intMatrix[rows]++;
-            intMatrix[columns] = 0;
-            aux2 = ch;
-            printf("\nNow intMatrix is printing  %i", intMatrix[rows][columns]);
+            fscanf(arc,auxiliar,&intMatrix[i][j]);
+            strcat(auxiliar," %i");
         }
-        if (ch == '-')
-        {
-            aux2 = ch;
-            printf("\nNow intMatrix is printing  %i", intMatrix[rows][columns]);
-        }
-        
-        if (ch == ' ')
-        {
-            intMatrix[columns]++;
-            aux2 = ch;
-            printf("\nNow intMatrix is printing  %i", intMatrix[rows][columns]);
-        }
-        else
-        {
-            aux1 = (ch) - 48;
-            
-            if (aux2 == '\n' || aux2 == ' ')
-            {
-                intMatrix[rows][columns] = aux1;
-                aux2 = aux1;
-                printf("\nNow intMatrix is printing  %i", intMatrix[rows][columns]);
-            }
-            if (aux2 = '-')
-            {
-                aux2 = aux3;
-                intMatrix[rows][columns] = (aux2 * 10) + aux1;
-                printf("\nNow intMatrix is printing  %i", intMatrix[rows][columns]);
-            }
-            
-            else{
-                intMatrix[rows][columns] = (aux2 * 10) + aux1;
-                printf("\nNow intMatrix is printing  %i", intMatrix[rows][columns]);
-            }  
-        }
-        printf("\nNow intMatrix is printing  %i", intMatrix[rows][columns]);
     }
+    fileira = i;
+    coluna = j;
 
-    //matrixCalculation(intMatrix);
+    matrixCalculation(intMatrix,fileira,coluna);
 
     fclose(arc);
 }
 
 int main()
 {
-    const char nameTxt[10];
+    char nameTxt[10];
     printf("Digite o nome do arquivo de entrada: ");
     scanf("%s", nameTxt);
 
