@@ -2,39 +2,65 @@
 #include <stdlib.h>
 #include <string.h>
 
-void matrixCalculation(int **value, int fileira, int coluna)
+void matrixCalculation(int **value, int loopValue)
 {
-    int maior;
-    int soma[fileira];
-    soma[0] = value[0][0];
+    int summation[loopValue - 1];
+    int i, j;
+    int auxSum = 0;
+    summation[0] = value[0][0];
 
-    for (int i = 1; i <= fileira; i++)
+    for (i = 1; i < loopValue; i++)
     {
-        for (int j = 0; j <= coluna; j++)
+        for (j = 0; j < (i + 1); j++)
         {
-           soma[i] = soma[i] + value[i][j];
-        }    
+            auxSum = auxSum + value[i][j];
+        }
+        summation[i] = auxSum;
+        auxSum = 0;
     }
-    
-    maior = soma[0];
-    int resultado;
-    int linha;
-    int col;
+    // -- CheckPoint --
 
-    for (int i = 1; i <= fileira; i++)
+    int highestValue;
+    int row;
+    int column;
+    int a, b;
+    int result;
+    int counter;
+    int fixedValue = value[0][0];
+
+    if (loopValue == 1)
     {
-        for (int j = 0; j <= coluna; j++)
+        row = 0;
+        column = 0;
+    }
+    else
+    {
+
+        for (a = 1; a < loopValue; a++)
         {
-            resultado = value[i][j] + soma[j];
-            if (maior < resultado)
+            for (b = 0; b < (a + 1); b++)
             {
-                maior = resultado;
-                linha = i;
-                col = j;
+                result = value[a][b];
+                for (counter = 0; counter < a; counter++)
+                {
+                    result = result + summation[counter];
+                }
+                // -- Checkpoint, result FunFa
+                if (fixedValue > result)
+                {
+                    highestValue = fixedValue;
+                }
+                if (fixedValue < result)
+                {
+                    highestValue = result;
+                    fixedValue = highestValue;
+                    row = a;
+                    column = b;
+                }
             }
-        }      
+        }
     }
-    printf("Resposta: fileira %d, caixa %d.",linha,col +1);  
+    printf("Resposta: fileira %d, caixa %d.", row + 1, column + 1);
 }
 
 void createIntMatrix(char *nameTxt)
@@ -48,10 +74,12 @@ void createIntMatrix(char *nameTxt)
     }
 
     // Creation of dinamic matrix, max 20 rows
+    int loopValue;
+    fscanf(arc, "%i", &loopValue);
 
     int **intMatrix; //point to point
-    int numOfRow = 20;
-    int numOfColumn = 19;
+    int numOfRow = loopValue;
+    int numOfColumn = loopValue;
 
     intMatrix = (int **)calloc(numOfRow, sizeof(int *)); // vector
     if (intMatrix == NULL)
@@ -68,27 +96,19 @@ void createIntMatrix(char *nameTxt)
             exit(1);
         }
     }
-    
-    int valorRepet;
-    int fileira;
-    int coluna;
-    int i,j;
-    char auxiliar[] = "%i";
+    //intMatrix[loopValue][loopValue + 1]= '/0';
 
-    fscanf(arc, "%i", &valorRepet);
+    int i, j;
 
-    for (i = 0; i < valorRepet; i++)
+    for (i = 0; i < loopValue; i++)
     {
-        for ( j = 0; j < valorRepet; j++)
+        for (j = 0; j < (i + 1); j++)
         {
-            fscanf(arc,auxiliar,&intMatrix[i][j]);
-            strcat(auxiliar," %i");
+            fscanf(arc, "%i", &intMatrix[i][j]);
         }
     }
-    fileira = i;
-    coluna = j;
 
-    matrixCalculation(intMatrix,fileira,coluna);
+    matrixCalculation(intMatrix, loopValue);
 
     fclose(arc);
 }
