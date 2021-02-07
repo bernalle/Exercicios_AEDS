@@ -96,7 +96,6 @@ void createIntMatrix(char *nameTxt)
             exit(1);
         }
     }
-    //intMatrix[loopValue][loopValue + 1]= '/0';
 
     int i, j;
 
