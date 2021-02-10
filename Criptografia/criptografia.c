@@ -44,7 +44,7 @@ void refletir(char *string_aux, int quantidade_de_palavras)
 	}
 }
 
-//Cifra de César, troca o caracter 3 para esquerda
+//Cifra de César, troca o caracter 5 para esquerda
 void cifraCesar(char *string_aux, int quantidade_de_palavras)
 {
 	int j;
@@ -59,7 +59,7 @@ void cifraCesar(char *string_aux, int quantidade_de_palavras)
 
 		else
 		{
-			if (string_aux[j] == 'a' || string_aux[j] == 'b' || string_aux[j] == 'c' || string_aux[j] == 'A' || string_aux[j] == 'B' || string_aux[j] == 'C')
+			if (string_aux[j] == 'a' || string_aux[j] == 'b' || string_aux[j] == 'c' || string_aux[j] == 'd' || string_aux[j] == 'e' || string_aux[j] == 'A' || string_aux[j] == 'B' || string_aux[j] == 'C'|| string_aux[j] == 'D'|| string_aux[j] == 'E')
 			{
 				string_aux[j] = string_aux[j] + 26;
 			}
