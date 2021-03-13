@@ -94,7 +94,7 @@ void mainSeg(char *nameTxt){
     }
 
 	int *elementsVector;
-	elementsVector = (int*) malloc(100 * sizeof(int));
+	elementsVector = (int*) malloc(1000 * sizeof(int));
 	int count = 0;
     int i = 0;
 	
